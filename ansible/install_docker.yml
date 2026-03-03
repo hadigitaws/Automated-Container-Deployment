@@ -1,0 +1,26 @@
+---
+- hosts: web
+  become: yes
+
+  tasks:
+
+    - name: Update apt
+      apt:
+        update_cache: yes
+
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+
+    - name: Start Docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Pull Docker image
+      command: docker pull hadi708/myapp
+
+    - name: Run Docker container
+      command: docker run -d -p 80:80 hadi708/myapp
