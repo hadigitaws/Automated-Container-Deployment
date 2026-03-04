@@ -9,7 +9,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-  steps:
+   steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -40,12 +40,11 @@ jobs:
           echo "${{ secrets.AWS_SSH_PRIVATE_KEY }}" > private_key.pem
           chmod 600 private_key.pem
 
-       - name: Install Ansible
-         run: |
+      - name: Install Ansible
+        run: |
           sudo apt update
           sudo apt install -y ansible sshpass
 
-      
       - name: Run Ansible
         run: |
           ansible-playbook \
