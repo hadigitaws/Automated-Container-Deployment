@@ -28,13 +28,29 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           TF_VAR_public_key: ${{ secrets.AWS_SSH_PRIVATE_KEY }}
 
-      - name: Install Ansible
+      - name: Get Terraform Output
+        id: terraform
+        run: |
+          cd terraform
+          terraform output -raw web_server_ip > ip.txt
+          echo "IP=$(cat ip.txt)" >> $GITHUB_OUTPUT
+
+      - name: Create SSH key file
+        run: |
+          echo "${{ secrets.AWS_SSH_PRIVATE_KEY }}" > private_key.pem
+          chmod 600 private_key.pem
+
+       - name: Install Ansible
         run: |
           sudo apt update
           sudo apt install -y ansible sshpass
 
-
+      
       - name: Run Ansible
         run: |
-          ansible-playbook -i "${WEB_SERVER_IP}," -u ubuntu \
-          --private-key private_key.pem ansible/playbook.yml
+          ansible-playbook \
+          -i "${{ steps.terraform.outputs.IP }}," \
+          -u ubuntu \
+          --private-key private_key.pem \
+          ansible/playbook.yml
+
