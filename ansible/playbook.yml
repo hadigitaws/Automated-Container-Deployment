@@ -13,14 +13,18 @@
         name: docker.io
         state: present
 
-    - name: Start Docker service
+    - name: Start Docker
       service:
         name: docker
         state: started
         enabled: yes
 
+    - name: Remove old container if exists
+      command: docker rm -f myapp
+      ignore_errors: yes
+
     - name: Pull Docker image
       command: docker pull hadi708/myapp
 
     - name: Run Docker container
-      command: docker run -d -p 80:80 hadi708/myapp
+      command: docker run -d --name myapp -p 80:80 hadi708/myapp
