@@ -7,3 +7,7 @@ output "instance_id" {
   description = "Instance ID"
   value       = aws_instance.web_server.id
 }
+
+output "web_server_ip" {
+  value = aws_instance.web_server.public_ip
+}
