@@ -22,7 +22,7 @@ data "aws_ami" "ubuntu" {
 # Create Key Pair from your local public key
 resource "aws_key_pair" "deployer" {
   key_name   = "mykey"
-  public_key = file(var.public_key_path)
+  public_key = var.public_key
 }
 
 # Security Group
