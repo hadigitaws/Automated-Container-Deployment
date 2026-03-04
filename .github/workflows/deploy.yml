@@ -41,7 +41,7 @@ jobs:
           chmod 600 private_key.pem
 
        - name: Install Ansible
-        run: |
+         run: |
           sudo apt update
           sudo apt install -y ansible sshpass
 
