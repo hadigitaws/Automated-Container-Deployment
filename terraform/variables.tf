@@ -8,7 +8,8 @@ variable "instance_type" {
   default     = "t3.micro"
 }
 
-variable "public_key_path" {
-  description = "Path to SSH public key"
-  default     = "/home/hadi/.ssh/id_rsa.pub"
+variable "public_key" {
+  description = "Public SSH key"
+  type        = string
 }
+
