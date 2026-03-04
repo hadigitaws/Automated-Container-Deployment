@@ -32,8 +32,8 @@ jobs:
         id: terraform
         run: |
           cd terraform
-          terraform output -raw web_server_ip > ip.txt
-          echo "IP=$(cat ip.txt)" >> $GITHUB_OUTPUT
+          IP=$(terraform output -raw web_server_ip)
+          echo "IP=$IP" >> $GITHUB_OUTPUT
 
       - name: Create SSH key file
         run: |
