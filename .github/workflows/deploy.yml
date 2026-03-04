@@ -26,16 +26,13 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          TF_VAR_public_key: ${{ secrets.AWS_SSH_PRIVATE_KEY }}
 
       - name: Install Ansible
         run: |
           sudo apt update
           sudo apt install -y ansible sshpass
 
-      - name: Save private key
-        run: |
-          echo "${{ secrets.AWS_SSH_PRIVATE_KEY }}" > private_key.pem
-          chmod 600 private_key.pem
 
       - name: Run Ansible
         run: |
