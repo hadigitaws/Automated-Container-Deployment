@@ -1,5 +1,8 @@
 name: Deploy to AWS
 
+env:
+  TF_LOG: ""
+
 on:
   push:
     branches:
@@ -32,9 +35,9 @@ jobs:
         id: terraform
         run: |
           cd terraform
-          IP=$(terraform output -raw web_server_ip)
+          IP=$(terraform output -raw web_server_ip 2>/dev/null)
           echo "IP=$IP" >> $GITHUB_OUTPUT
-
+      
       - name: Create SSH key file
         run: |
           echo "${{ secrets.AWS_SSH_PRIVATE_KEY }}" > private_key.pem
