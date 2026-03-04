@@ -31,11 +31,14 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           TF_VAR_public_key: ${{ secrets.AWS_SSH_PRIVATE_KEY }}
 
+      - name: Install jq
+        run: sudo apt-get install -y jq
+
       - name: Get Terraform Output
         id: terraform
         run: |
           cd terraform
-          IP=$(terraform output -raw web_server_ip 2>/dev/null)
+          IP=$(terraform output -json | jq -r '.web_server_ip.value')
           echo "IP=$IP" >> $GITHUB_OUTPUT
       
       - name: Create SSH key file
