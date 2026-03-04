@@ -32,3 +32,12 @@ jobs:
           sudo apt update
           sudo apt install -y ansible sshpass
 
+      - name: Save private key
+        run: |
+          echo "${{ secrets.AWS_SSH_PRIVATE_KEY }}" > private_key.pem
+          chmod 600 private_key.pem
+
+      - name: Run Ansible
+        run: |
+          ansible-playbook -i "${WEB_SERVER_IP}," -u ubuntu \
+          --private-key private_key.pem ansible/playbook.yml
