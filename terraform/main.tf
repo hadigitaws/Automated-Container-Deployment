@@ -62,8 +62,3 @@ resource "aws_instance" "web_server" {
     Name = "Docker-Server"
   }
 }
-
-# Output public IP for Ansible
-output "web_server_ip" {
-  value = aws_instance.web_server.public_ip
-}
